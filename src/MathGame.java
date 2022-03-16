@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 //********************************************************************
 //
 //  Author:        Jeremy Aubrey
@@ -18,23 +20,40 @@
 //********************************************************************
 
 public class MathGame {
+	
+	Scanner input = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		
 		MathGame game = new MathGame();
 		game.developerInfo();
 		
+		//get grader
+		MathGrader grader = new MathGrader();
+		
 		// get a MathQuestionGenerator
 		MathQuestionGenerator qGenerator = new BasicQuestionGenerator();
-
-		MathGrader grader = new MathGrader();
-		int expected = 1;
-
-		System.out.println(grader.grade(expected, 1));
-		System.out.println(grader.grade(expected, 2));
+		MathQuestionGenerator qGenerator2 = new IntermediateQuestionGenerator();
+		MathQuestionGenerator qGenerator3 = new AdvancedQuestionGenerator();
 		
-		System.out.println(grader.getRandomResponse(false));
-		System.out.println(grader.getRandomResponse(true));
+		qGenerator.dispalyData();
+		qGenerator2.dispalyData();
+		qGenerator3.dispalyData();
+		
+				
 	}
+	
+	
+	public String getUserAnswer() {
+		
+		String answer = "";
+		System.out.print("Please enter a number: ");
+		answer = input.nextLine();
+
+		return answer;
+		
+	}
+	
 	
     //***************************************************************
     //

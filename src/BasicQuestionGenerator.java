@@ -1,10 +1,12 @@
 
 public class BasicQuestionGenerator extends MathQuestionGenerator{
 
-	@Override
-	public String getQuestion() {
-		String question = "This is an easy question";
-		return question;
+	public BasicQuestionGenerator() {
+		//operand count, operator count, difficulty, difficulty index
+		super(2, 1, "Basic", 100);
 	}
+
+	
+
 
 }
