@@ -25,13 +25,15 @@ public class MathGame {
 		
 		// get a MathQuestionGenerator
 		MathQuestionGenerator qGenerator = new BasicQuestionGenerator();
-		MathQuestionGenerator qGenerator2 = new IntermmediateQuestionGenerator();
-		MathQuestionGenerator qGenerator3 = new AdvancedQuestionGenerator();
+
+		MathGrader grader = new MathGrader();
+		int expected = 1;
+
+		System.out.println(grader.grade(expected, 1));
+		System.out.println(grader.grade(expected, 2));
 		
-		System.out.println(qGenerator.getQuestion());
-		System.out.println(qGenerator2.getQuestion());
-		System.out.println(qGenerator3.getQuestion());
-		
+		System.out.println(grader.getRandomResponse(false));
+		System.out.println(grader.getRandomResponse(true));
 	}
 	
     //***************************************************************
