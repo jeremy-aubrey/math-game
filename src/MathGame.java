@@ -22,6 +22,16 @@ public class MathGame {
 		
 		MathGame game = new MathGame();
 		game.developerInfo();
+		
+		// get a MathQuestionGenerator
+		MathQuestionGenerator qGenerator = new BasicQuestionGenerator();
+		MathQuestionGenerator qGenerator2 = new IntermmediateQuestionGenerator();
+		MathQuestionGenerator qGenerator3 = new AdvancedQuestionGenerator();
+		
+		System.out.println(qGenerator.getQuestion());
+		System.out.println(qGenerator2.getQuestion());
+		System.out.println(qGenerator3.getQuestion());
+		
 	}
 	
     //***************************************************************
@@ -42,5 +52,5 @@ public class MathGame {
        System.out.println("Program: 6");
 
     } // end developerInfo method
-}
-
+    
+}// end MathGame class
