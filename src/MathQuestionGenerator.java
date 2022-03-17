@@ -26,6 +26,26 @@ public abstract class MathQuestionGenerator {
 		
 	}
 	
+	private void setCurrentQuestion(String question) {
+		this.currentQuestion = question;
+	}
+	
+	private void setCurrentAnswer(int answer) {
+		this.currentAnswer = answer;
+	}
+	
+	public int getCurrentAnswer() {
+		return currentAnswer;
+	}
+	
+	public String getCurrentQuestion() {
+		return currentQuestion;
+	}
+	
+	public String getDifficultyLevel() {
+		return difficultyLevel;
+	}
+	
 	private void setOperands() {
 		
 		int operandsSize = currentOperands.length;
@@ -44,43 +64,7 @@ public abstract class MathQuestionGenerator {
 			currentOperators[i] = operators[randomIndex];
 		}
 	}
-	
-	public void displayOperands() {
-		System.out.print("[");
-		for(int i : currentOperands) {
-			System.out.print(" " + i + " ");
-		}
-		System.out.print("]");
-	}
-	
-	public void displayOperators() {
-		System.out.print("[");
-		for(String str : currentOperators) {
-			System.out.print(" " + str + " ");
-		}
-		System.out.print("]");
-	}
-	
-	public void dispalyData() {
-		System.out.println();
-		displayOperands();
-		System.out.println();
-		displayOperators();
-		System.out.println();
-		System.out.println(currentQuestion);
-		System.out.println();
-		System.out.println(calculateCurrentAnswer());
-
-	}
-	
-	public void dispalyEquation(String[] arr) {
-		System.out.print("EQ: [");
-		for(String str : arr) {
-			System.out.print(" " + str + " ");
-		}
-		System.out.print("]");
-	}
-	
+		
 	public String generateNewQuestion() {
 		
 		String question = "";
@@ -91,15 +75,10 @@ public abstract class MathQuestionGenerator {
 			builder.append(currentOperands[i + 1]);
 		}
 		builder.append(" ?");
-		
 		question = builder.toString();
 		setCurrentQuestion(question);
 		
 		return question;
-	}
-	
-	public void setCurrentQuestion(String question) {
-		this.currentQuestion = question;
 	}
 	
 	public int calculateCurrentAnswer() {
@@ -111,6 +90,7 @@ public abstract class MathQuestionGenerator {
 				.collect(Collectors.toList());
 
 		answer = calculate(operators, operands);
+		setCurrentAnswer(answer);
 		
 		return answer;
 	}
@@ -123,7 +103,7 @@ public abstract class MathQuestionGenerator {
 			
 		} else {
 			
-			if(operators.contains("*") || operators.contains("%")) { // multiplication / modulus operation
+			if(operators.contains("*") || operators.contains("%")) { /* MULTIPLICATION / MODULUS */
 				
 				//determine indexes 
 				int multiplyIndex = operators.indexOf("*");
@@ -153,7 +133,7 @@ public abstract class MathQuestionGenerator {
 					
 				}
 					
-			}  else  { // must be either addition or subtraction operation
+			}  else  { /* ADDITION / SUBTRACTION */
 				
 				//determine indexes
 				int additionIndex = operators.indexOf("+");
@@ -188,4 +168,46 @@ public abstract class MathQuestionGenerator {
 	
 	}// end calculate method
 	
-}
+	/* DEV METHODS -- REMOVE ALL BELOW -- */ 
+	
+	//DEV ONLY - REMOVE
+		public void displayOperands() {
+			System.out.print("[");
+			for(int i : currentOperands) {
+				System.out.print(" " + i + " ");
+			}
+			System.out.print("]");
+		}
+		
+		//DEV ONLY - REMOVE
+		public void displayOperators() {
+			System.out.print("[");
+			for(String str : currentOperators) {
+				System.out.print(" " + str + " ");
+			}
+			System.out.print("]");
+		}
+		
+		//DEV ONLY - REMOVE
+		public void dispalyData() {
+			System.out.println();
+			displayOperands();
+			System.out.println();
+			displayOperators();
+			System.out.println();
+			System.out.println(currentQuestion);
+			System.out.println();
+			System.out.println(calculateCurrentAnswer());
+		}
+		
+		//DEV ONLY - REMOVE
+		public void dispalyEquation(String[] arr) {
+			
+			System.out.print("EQ: [");
+			for(String str : arr) {
+				System.out.print(" " + str + " ");
+			}
+			System.out.print("]");
+		}
+		
+}//	end MathQuestionGenerator Class

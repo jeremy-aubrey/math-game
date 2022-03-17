@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 //********************************************************************
 //
 //  Author:        Jeremy Aubrey
@@ -18,6 +16,8 @@ import java.util.Scanner;
 //                 help users learn to evaluate integer arithmetic expressions.
 //
 //********************************************************************
+
+import java.util.Scanner;
 
 public class MathGame {
 	
@@ -47,7 +47,6 @@ public class MathGame {
 				
 	}
 	
-	
 	public String getUserAnswer() {
 		
 		String answer = "";
@@ -57,7 +56,6 @@ public class MathGame {
 		return answer;
 		
 	}
-	
 	
     //***************************************************************
     //
