@@ -36,6 +36,10 @@ public class MathGame {
 		MathQuestionGenerator qGenerator2 = new IntermediateQuestionGenerator();
 		MathQuestionGenerator qGenerator3 = new AdvancedQuestionGenerator();
 		
+		qGenerator.generateNewQuestion();
+		qGenerator2.generateNewQuestion();
+		qGenerator3.generateNewQuestion();
+		
 		qGenerator.dispalyData();
 		qGenerator2.dispalyData();
 		qGenerator3.dispalyData();

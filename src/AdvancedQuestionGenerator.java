@@ -6,5 +6,4 @@ public class AdvancedQuestionGenerator extends MathQuestionGenerator{
 		super(4, 3, "Advanced", 200);
 	}
 
-
 }
