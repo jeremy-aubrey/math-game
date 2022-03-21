@@ -36,20 +36,18 @@ public class MathGame {
 		MathQuestionGenerator qGenerator2 = new IntermediateQuestionGenerator();
 		MathQuestionGenerator qGenerator3 = new AdvancedQuestionGenerator();
 		
-		qGenerator.generateNewQuestion();
+		String question = qGenerator.newQuestion();
 		
-		qGenerator.dispalyData();
-
 		int ans;
 		try {
-			
+			System.out.println(question);
 			ans = Integer.parseInt(game.getUserAnswer());
 			int expected = qGenerator.getCurrentAnswer();
 			boolean isCorrect = grader.grade(ans, expected);
 			System.out.println(grader.getRandomResponse(isCorrect));
 			
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 

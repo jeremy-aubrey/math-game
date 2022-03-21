@@ -3,7 +3,7 @@ public class AdvancedQuestionGenerator extends MathQuestionGenerator{
 
 	public AdvancedQuestionGenerator() {
 		//operand count, operator count, difficulty, difficulty index
-		super(4, 3, "Advanced", 200);
+		super(4, 3, "Advanced");
 	}
 
 }

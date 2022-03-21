@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 public abstract class MathQuestionGenerator {
 	
 	private String difficultyLevel;
-	private int difficultyIndex;
 	private String currentQuestion;
 	private int currentAnswer;
 	
@@ -15,12 +14,11 @@ public abstract class MathQuestionGenerator {
 	private int[] currentOperands;
 	private String[] currentOperators;
 	
-	public MathQuestionGenerator(int operandsCount, int operatorsCount, String difficultyLevel, int difficultyIndex) {
+	public MathQuestionGenerator(int operandsCount, int operatorsCount, String difficultyLevel) {
 		
 		this.currentOperands = new int[operandsCount]; // set size based on difficulty
 		this.currentOperators = new String[operatorsCount]; // set size based on difficulty
 		this.difficultyLevel = difficultyLevel; // set descriptor based on difficulty
-		this.difficultyIndex = difficultyIndex;
 		
 		setOperands();// initial values 
 		setOperators();// initial values
@@ -66,8 +64,16 @@ public abstract class MathQuestionGenerator {
 			currentOperators[i] = operators[randomIndex];
 		}
 	}
+	
+	public String newQuestion() {
+		generateNewQuestion();
+		calculateCurrentAnswer();
 		
-	public String generateNewQuestion() {
+		return getCurrentQuestion();
+		
+	}
+		
+	private void generateNewQuestion() {
 		
 		String question = "";
 		StringBuilder builder = new StringBuilder();
@@ -80,10 +86,9 @@ public abstract class MathQuestionGenerator {
 		question = builder.toString();
 		setCurrentQuestion(question);
 		
-		return question;
 	}
 	
-	public int calculateCurrentAnswer() {
+	private void calculateCurrentAnswer() {
 		int answer = 0;
 
 		List<String> operators = new ArrayList<String>(Arrays.asList(currentOperators));
@@ -93,8 +98,6 @@ public abstract class MathQuestionGenerator {
 
 		answer = calculate(operators, operands);
 		setCurrentAnswer(answer);
-		
-		return answer;
 	}
 	
 	public int calculate(List<String> operators, List<Integer> operands) {
@@ -199,7 +202,6 @@ public abstract class MathQuestionGenerator {
 			System.out.println();
 			System.out.println(currentQuestion);
 			System.out.println();
-			System.out.println(calculateCurrentAnswer());
 		}
 		
 		//DEV ONLY - REMOVE
