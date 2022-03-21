@@ -1,3 +1,4 @@
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,9 +49,10 @@ public abstract class MathQuestionGenerator {
 	
 	private void setOperands() {
 		
+		SecureRandom rand = new SecureRandom();
 		int operandsSize = currentOperands.length;
 		for(int i = 0; i < operandsSize; i++) {
-			int randomNum = (int)(Math.random() * this.difficultyIndex); //random number
+			int randomNum = rand.nextInt(9) + 1; // 1 - 9
 			currentOperands[i] = randomNum;
 		}
 	}
