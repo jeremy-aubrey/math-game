@@ -66,14 +66,19 @@ public abstract class MathQuestionGenerator {
 	}
 	
 	public String newQuestion() {
-		generateNewQuestion();
-		calculateCurrentAnswer();
 		
-		return getCurrentQuestion();
+		generateNewQuestion(); // generates and sets a new question 
+		int answer = calculateCurrentAnswer(); // calculates answer
+		setCurrentAnswer(answer); // sets answer
+		
+		return getCurrentQuestion(); // return new question
 		
 	}
 		
 	private void generateNewQuestion() {
+		
+		setOperands(); // populate random operands
+		setOperators(); // populate random operators
 		
 		String question = "";
 		StringBuilder builder = new StringBuilder();
@@ -84,11 +89,12 @@ public abstract class MathQuestionGenerator {
 		}
 		builder.append(" ?");
 		question = builder.toString();
+		
 		setCurrentQuestion(question);
 		
 	}
 	
-	private void calculateCurrentAnswer() {
+	private int calculateCurrentAnswer() {
 		int answer = 0;
 
 		List<String> operators = new ArrayList<String>(Arrays.asList(currentOperators));
@@ -97,7 +103,8 @@ public abstract class MathQuestionGenerator {
 				.collect(Collectors.toList());
 
 		answer = calculate(operators, operands);
-		setCurrentAnswer(answer);
+		
+		return answer;
 	}
 	
 	public int calculate(List<String> operators, List<Integer> operands) {

@@ -33,28 +33,34 @@ public class MathGame {
 		
 		// get a MathQuestionGenerator
 		MathQuestionGenerator qGenerator = new BasicQuestionGenerator();
-		MathQuestionGenerator qGenerator2 = new IntermediateQuestionGenerator();
-		MathQuestionGenerator qGenerator3 = new AdvancedQuestionGenerator();
 		
 		String question = qGenerator.newQuestion();
 		
-		int ans;
-		try {
-			System.out.println(question);
-			ans = Integer.parseInt(game.getUserAnswer());
-			int expected = qGenerator.getCurrentAnswer();
-			boolean isCorrect = grader.grade(ans, expected);
-			System.out.println(grader.getRandomResponse(isCorrect));
+		while (true) {
 			
-		} catch (NumberFormatException e) {
-
-			e.printStackTrace();
-		}
-
-		
-		
-		
+			int ans;
+			try {
 				
+				System.out.println(question);
+				ans = Integer.parseInt(game.getUserAnswer());
+				int expected = qGenerator.getCurrentAnswer();
+				boolean isCorrect = grader.grade(ans, expected);
+				System.out.println(grader.getRandomResponse(isCorrect));
+ 				
+				if(isCorrect) {
+					System.out.println("getting new question");
+ 					question = qGenerator.newQuestion();
+ 					System.out.println(qGenerator.getCurrentQuestion());
+ 				}
+				
+				
+			} catch (NumberFormatException e) {
+
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
 	
 	public String getUserAnswer() {
@@ -66,6 +72,7 @@ public class MathGame {
 		return answer;
 		
 	}
+	
 	
     //***************************************************************
     //
