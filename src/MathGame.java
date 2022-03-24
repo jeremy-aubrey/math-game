@@ -31,19 +31,19 @@ public class MathGame {
 		MathGame game = new MathGame();
 		game.developerInfo();
 		
-		boolean isPlaying = true;
+		boolean quit = false;
 		
-		while (isPlaying) {
+		while (!quit) {
 			
-			game.playRound(); // score ++ 
-//			isPlaying = game.upGradeOrQuit();
+			game.playRound(); 
+			quit = game.upGradeOrQuit();
 		}
 		
-		
+		System.out.println("Good bye");
 	}
 	
 	public void playRound() {
-
+		System.out.println("");
 		String question = qGenerator.newQuestion();
 		System.out.println(question);
 		
@@ -54,6 +54,7 @@ public class MathGame {
 		
 		while(!isCorrect) { // keep asking same question until user gets correct
 			
+			System.out.println("");
 			System.out.println(question);
 			userAnswer = getValidInt();
 			isCorrect = grader.grade(expectedAnswer, userAnswer);
@@ -68,33 +69,70 @@ public class MathGame {
 		return this.score;
 	}
 	
+	public void resetScore() {
+		this.score = 0;
+	}
+	
 	public boolean isUpgradable() {
 		
 		boolean isUpgradable = false;
-		if(getScore() >= 5 && !qGenerator.getDifficultyLevel().equals("Advanced")) {
+		if(getScore() >= 5) {
 			isUpgradable = true;
 		}
 		
 		return isUpgradable;
 	}
 	
+	public void playForUpgrade() {
+		resetScore(); // score is 0
+		// must answer 5 questions correctly then upgrade
+		while(score < 5) {
+			playRound();
+		}
+		
+		upgradeDifficulty();
+	}
+	
 	public boolean upGradeOrQuit() {
 		
 		boolean quit = false;
+		String selection = null;
 		
-		if(qGenerator.getDifficultyLevel().equals("Advanced")) {
+		if(isUpgradable() && qGenerator.getDifficultyLevel().equals("Advanced")) { 
+			System.out.println("Enter any key to continue or q to quit");
 			// allow user to quit only
+			selection = getValidSelection();
+			if(selection.equalsIgnoreCase("q")) {
+				quit = true;
+			} else if(selection.equals("u")) {
+				System.out.println("Unable to upgrade");
+			}
 			
-		} else { // difficulty is either basic or intermediate 
+		} else if(isUpgradable()){ // upgrade conditions are met
 			
-			
+			System.out.println();
+			System.out.println("---------------------------------");
+			System.out.println("Enter 'u' to upgrade difficulty");
+			System.out.println("Enter 'q' to quit");
+			System.out.println("( Or enter any key to continue )");
+			System.out.println("---------------------------------");
+			selection = getValidSelection();
+
+			if(selection.equalsIgnoreCase("u")) { // user selected upgrade difficulty
+				System.out.println("-----------------------------------------------");
+				System.out.println("Answer 5 questions correctly to upgrade...");
+				System.out.println("-----------------------------------------------");
+				playForUpgrade();
+			} else if(selection.equalsIgnoreCase("q")) {
+				quit = true;
+			}
 			
 		}
 		
 		return quit;
 	}
 	
-	public void upGradeDifficulty() {
+	public void upgradeDifficulty() {
 		
 		String oldDifficulty = qGenerator.getDifficultyLevel();
 		
@@ -108,8 +146,11 @@ public class MathGame {
 		}
 		
 		String newDifficulty = qGenerator.getDifficultyLevel();
-		
+		System.out.println();
+		System.out.println("--------------------------------------------------------------");
 		System.out.println("Difficulty upgraded from [ " + oldDifficulty + " ] -> [ " + newDifficulty + " ]");
+		System.out.println("--------------------------------------------------------------");;
+		resetScore();
 		
 	}
 	
@@ -130,8 +171,7 @@ public class MathGame {
 		
 		while(!isValid) {
 			
-			System.out.print("Answer: ");
-			String userAnswer = input.nextLine();
+			String userAnswer = getUserInput("Answer: ");
 			
 			try {
 				
@@ -140,12 +180,41 @@ public class MathGame {
 				
 			} catch (NumberFormatException e) {
 				
-				System.out.println("Must enter an integer");
+				System.out.println("( Must enter an integer )");
 			}
 		}
 		
 		return answer;
 
+	}
+	
+	public String getValidSelection() {
+		
+		String[] options = {"u", "q"}; // list of valid options
+		boolean isValid = false;
+		String selection = "";
+		
+		while(!isValid) {
+			
+			String userAnswer = getUserInput("Selection: ");
+			
+			try {
+				
+				for(String option : options) {
+					if(userAnswer.equalsIgnoreCase(option)) {
+						selection = userAnswer;
+					}
+				}
+				
+				isValid = true;
+				
+			} catch (NumberFormatException e) {
+				
+				System.out.println("Enter 'u' to upgrade diffculty or 'q' to quit");
+			}
+		}
+		
+		return selection;
 	}
 	
 	
