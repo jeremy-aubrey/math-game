@@ -24,7 +24,8 @@ public class MathGame {
 	private Scanner input = new Scanner(System.in);
 	private MathQuestionGenerator qGenerator = new BasicQuestionGenerator();
 	private MathGrader grader = new MathGrader();
-	private int score = 0;
+	private int correctScore = 0;
+	private int incorrectScore = 0;
 	
 	public static void main(String[] args) {
 		
@@ -37,12 +38,14 @@ public class MathGame {
 			
 			game.playRound(); 
 			quit = game.upGradeOrQuit();
+			
 		}
 		
 		System.out.println("Good bye");
 	}
 	
 	public void playRound() {
+		
 		System.out.println("");
 		String question = qGenerator.newQuestion();
 		System.out.println(question);
@@ -54,6 +57,7 @@ public class MathGame {
 		
 		while(!isCorrect) { // keep asking same question until user gets correct
 			
+			incrementIncorrectScore();
 			System.out.println("");
 			System.out.println(question);
 			userAnswer = getValidInt();
@@ -62,21 +66,43 @@ public class MathGame {
 
 		}
 		
-		score++; // user has entered the correct answer, increment score
+		incrementCorrectScore(); // user has entered the correct answer, increment score
 	}
 	
-	public int getScore() {
-		return this.score;
+	public int getCorrectScore() {
+		return this.correctScore;
+	}
+	
+	public int getIncorrectScore() {
+		return this.incorrectScore;
 	}
 	
 	public void resetScore() {
-		this.score = 0;
+		this.correctScore = 0;
+		this.incorrectScore = 0;
+	}
+	
+	public void incrementCorrectScore() {
+		this.correctScore++;
+	}
+	
+	public void incrementIncorrectScore() {
+		this.incorrectScore++;
+	}
+	
+	public String getPerformance() {
+		
+		String report = String.format("%n%-11s%s%n%-11s%s%n",
+				"Correct: ", getCorrectScore(),
+				"Incorrect: ", getIncorrectScore());
+		
+		return report;
 	}
 	
 	public boolean isUpgradable() {
 		
 		boolean isUpgradable = false;
-		if(getScore() >= 5) {
+		if(getCorrectScore() >= 5) {
 			isUpgradable = true;
 		}
 		
@@ -86,10 +112,11 @@ public class MathGame {
 	public void playForUpgrade() {
 		resetScore(); // score is 0
 		// must answer 5 questions correctly then upgrade
-		while(score < 5) {
+		while(correctScore < 5) {
 			playRound();
 		}
 		
+		System.out.println(getPerformance());
 		upgradeDifficulty();
 	}
 	
@@ -99,18 +126,23 @@ public class MathGame {
 		String selection = null;
 		
 		if(isUpgradable() && qGenerator.getDifficultyLevel().equals("Advanced")) { 
-			System.out.println("Enter any key to continue or q to quit");
+			System.out.println();
+			System.out.println("----------------------------------------");
+			System.out.println("Enter any key to continue or 'q' to quit");
+			System.out.println("----------------------------------------");
 			// allow user to quit only
 			selection = getValidSelection();
 			if(selection.equalsIgnoreCase("q")) {
 				quit = true;
 			} else if(selection.equals("u")) {
+				System.out.println("----------------------------------------");
 				System.out.println("Unable to upgrade");
+				System.out.println("----------------------------------------");
 			}
 			
 		} else if(isUpgradable()){ // upgrade conditions are met
 			
-			System.out.println();
+			System.out.println(getPerformance());
 			System.out.println("---------------------------------");
 			System.out.println("Enter 'u' to upgrade difficulty");
 			System.out.println("Enter 'q' to quit");
@@ -146,10 +178,9 @@ public class MathGame {
 		}
 		
 		String newDifficulty = qGenerator.getDifficultyLevel();
-		System.out.println();
-		System.out.println("--------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------");
 		System.out.println("Difficulty upgraded from [ " + oldDifficulty + " ] -> [ " + newDifficulty + " ]");
-		System.out.println("--------------------------------------------------------------");;
+		System.out.println("--------------------------------------------------------");;
 		resetScore();
 		
 	}
