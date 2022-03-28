@@ -17,6 +17,10 @@
 //
 //********************************************************************
 
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MathGame {
@@ -26,11 +30,22 @@ public class MathGame {
 	private MathGrader grader = new MathGrader();
 	private int correctScore = 0;
 	private int incorrectScore = 0;
+	private static BufferedWriter gameReport;
 	
 	public static void main(String[] args) {
 		
 		MathGame game = new MathGame();
 		game.developerInfo();
+		
+		try {
+			
+			gameReport =  new BufferedWriter(new FileWriter("Project6-Output.txt"));
+			gameReport.write("GAME RESULTS");
+			
+		} catch (IOException e) {
+			
+			System.out.println("Error creating log file");
+		}
 		
 		boolean quit = false;
 		
@@ -41,28 +56,39 @@ public class MathGame {
 			
 		}
 		
-		System.out.println("Good bye");
+		game.printAndLog("Good bye", false);
+		
+		try {
+			
+			gameReport.close();
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 	}
 	
 	public void playRound() {
 		
-		System.out.println("");
+		printAndLog("", false);
 		String question = qGenerator.newQuestion();
-		System.out.println(question);
+		printAndLog(question, false);
 		
 		int userAnswer = getValidInt();
+		String loggedAnswer = "Answer: " + String.valueOf(userAnswer);
+		printAndLog(loggedAnswer, true); //log only
 		int expectedAnswer = qGenerator.getCurrentAnswer();
 		boolean isCorrect = grader.grade(expectedAnswer, userAnswer);
-		System.out.println(grader.getRandomResponse(isCorrect));
+		printAndLog(grader.getRandomResponse(isCorrect), false);
 		
 		while(!isCorrect) { // keep asking same question until user gets correct
 			
 			incrementIncorrectScore();
-			System.out.println("");
-			System.out.println(question);
+			printAndLog("", false);
+			printAndLog(question, false);
 			userAnswer = getValidInt();
 			isCorrect = grader.grade(expectedAnswer, userAnswer);
-			System.out.println(grader.getRandomResponse(isCorrect));
+			printAndLog(grader.getRandomResponse(isCorrect), false);
 
 		}
 		
@@ -116,7 +142,7 @@ public class MathGame {
 			playRound();
 		}
 		
-		System.out.println(getPerformance());
+		printAndLog(getPerformance(), false);
 		upgradeDifficulty();
 	}
 	
@@ -126,34 +152,34 @@ public class MathGame {
 		String selection = null;
 		
 		if(isUpgradable() && qGenerator.getDifficultyLevel().equals("Advanced")) { 
-			System.out.println();
-			System.out.println("----------------------------------------");
-			System.out.println("Enter any key to continue or 'q' to quit");
-			System.out.println("----------------------------------------");
+			printAndLog("", false);
+			printAndLog("----------------------------------------", false);
+			printAndLog("Enter any key to continue or 'q' to quit", false);
+			printAndLog("----------------------------------------", false);
 			// allow user to quit only
 			selection = getValidSelection();
 			if(selection.equalsIgnoreCase("q")) {
 				quit = true;
 			} else if(selection.equals("u")) {
-				System.out.println("----------------------------------------");
-				System.out.println("Unable to upgrade");
-				System.out.println("----------------------------------------");
+				printAndLog("----------------------------------------", false);
+				printAndLog("Unable to upgrade", false);
+				printAndLog("----------------------------------------", false);
 			}
 			
 		} else if(isUpgradable()){ // upgrade conditions are met
 			
-			System.out.println(getPerformance());
-			System.out.println("---------------------------------");
-			System.out.println("Enter 'u' to upgrade difficulty");
-			System.out.println("Enter 'q' to quit");
-			System.out.println("( Or enter any key to continue )");
-			System.out.println("---------------------------------");
+			printAndLog(getPerformance(), false);
+			printAndLog("---------------------------------", false);
+			printAndLog("Enter 'u' to upgrade difficulty", false);
+			printAndLog("Enter 'q' to quit", false);
+			printAndLog("( Or enter any key to continue )", false);
+			printAndLog("---------------------------------", false);
 			selection = getValidSelection();
 
 			if(selection.equalsIgnoreCase("u")) { // user selected upgrade difficulty
-				System.out.println("-----------------------------------------------");
-				System.out.println("Answer 5 questions correctly to upgrade...");
-				System.out.println("-----------------------------------------------");
+				printAndLog("-----------------------------------------------", false);
+				printAndLog("Answer 5 questions correctly to upgrade...", false);
+				printAndLog("-----------------------------------------------", false);
 				playForUpgrade();
 			} else if(selection.equalsIgnoreCase("q")) {
 				quit = true;
@@ -178,9 +204,9 @@ public class MathGame {
 		}
 		
 		String newDifficulty = qGenerator.getDifficultyLevel();
-		System.out.println("--------------------------------------------------------");
-		System.out.println("Difficulty upgraded from [ " + oldDifficulty + " ] -> [ " + newDifficulty + " ]");
-		System.out.println("--------------------------------------------------------");;
+		printAndLog("--------------------------------------------------------", false);
+		printAndLog("Difficulty upgraded from [ " + oldDifficulty + " ] -> [ " + newDifficulty + " ]", false);
+		printAndLog("--------------------------------------------------------", false);;
 		resetScore();
 		
 	}
@@ -190,7 +216,8 @@ public class MathGame {
 		String answer = "";
 		System.out.print(promptMsg);
 		answer = input.nextLine();
-
+		
+		
 		return answer;
 		
 	}
@@ -211,7 +238,7 @@ public class MathGame {
 				
 			} catch (NumberFormatException e) {
 				
-				System.out.println("( Must enter an integer )");
+				printAndLog("( Must enter an integer )", false);
 			}
 		}
 		
@@ -241,11 +268,27 @@ public class MathGame {
 				
 			} catch (NumberFormatException e) {
 				
-				System.out.println("Enter 'u' to upgrade diffculty or 'q' to quit");
+				printAndLog("Enter 'u' to upgrade diffculty or 'q' to quit", false);
 			}
 		}
 		
 		return selection;
+	}
+	
+	private void printAndLog(String content, boolean logOnly) {
+		
+		if(!logOnly) {
+			System.out.println(content);
+		}
+		
+		try {
+			
+			gameReport.write("\n" + content); // log to game record file
+			
+		} catch (IOException e) {
+			
+			printAndLog("Error logging to file", false);
+		}
 	}
 	
 	

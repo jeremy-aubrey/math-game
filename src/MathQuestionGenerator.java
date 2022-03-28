@@ -179,46 +179,5 @@ public abstract class MathQuestionGenerator {
 		}
 	
 	}// end calculate method
-	
-	/* DEV METHODS -- REMOVE ALL BELOW -- */ 
-	
-	//DEV ONLY - REMOVE
-		public void displayOperands() {
-			System.out.print("[");
-			for(int i : currentOperands) {
-				System.out.print(" " + i + " ");
-			}
-			System.out.print("]");
-		}
-		
-		//DEV ONLY - REMOVE
-		public void displayOperators() {
-			System.out.print("[");
-			for(String str : currentOperators) {
-				System.out.print(" " + str + " ");
-			}
-			System.out.print("]");
-		}
-		
-		//DEV ONLY - REMOVE
-		public void dispalyData() {
-			System.out.println();
-			displayOperands();
-			System.out.println();
-			displayOperators();
-			System.out.println();
-			System.out.println(currentQuestion);
-			System.out.println();
-		}
-		
-		//DEV ONLY - REMOVE
-		public void dispalyEquation(String[] arr) {
 			
-			System.out.print("EQ: [");
-			for(String str : arr) {
-				System.out.print(" " + str + " ");
-			}
-			System.out.print("]");
-		}
-		
 }//	end MathQuestionGenerator Class
