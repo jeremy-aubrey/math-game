@@ -1,3 +1,6 @@
+# Project Output
+*.txt
+
 # Java related
 target/**
 *.jar
@@ -6,7 +9,6 @@ target/**
 *.class
 
 # eclipse specific
-*.pydevproject
 .project
 .metadata
 bin/**
