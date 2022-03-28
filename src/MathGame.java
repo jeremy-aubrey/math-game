@@ -40,7 +40,7 @@ public class MathGame {
 		try {
 			
 			gameReport =  new BufferedWriter(new FileWriter("Project6-Output.txt"));
-			gameReport.write("GAME RESULTS");
+			gameReport.write("GAME RESULTS"); // report header
 			
 		} catch (IOException e) {
 			
@@ -75,8 +75,6 @@ public class MathGame {
 		printAndLog(question, false);
 		
 		int userAnswer = getValidInt();
-		String loggedAnswer = "Answer: " + String.valueOf(userAnswer);
-		printAndLog(loggedAnswer, true); //log only
 		int expectedAnswer = qGenerator.getCurrentAnswer();
 		boolean isCorrect = grader.grade(expectedAnswer, userAnswer);
 		printAndLog(grader.getRandomResponse(isCorrect), false);
@@ -217,6 +215,7 @@ public class MathGame {
 		System.out.print(promptMsg);
 		answer = input.nextLine();
 		
+		printAndLog((promptMsg + answer), true);
 		
 		return answer;
 		
