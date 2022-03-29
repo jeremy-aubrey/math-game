@@ -17,7 +17,6 @@
 //
 //********************************************************************
 
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class MathGame {
 		try { // instantiate game log file
 			
 			gameReport =  new BufferedWriter(new FileWriter("Project6-Output.txt"));
-			gameReport.write("GAME RESULTS"); // add report header
+			gameReport.write("***** GAME LOG *****"); // add report header
 			
 		} catch (IOException e) {
 			System.out.println("Error creating log file");
@@ -53,16 +52,17 @@ public class MathGame {
 			quit = game.upgradeOrQuit();
 		}
 		
+		// exit game / close log file
 		game.printAndLog("Good bye", false); // exit game
 		try { //close resources		
 			
-			gameReport.close();
+			gameReport.write("\n\n***** END GAME LOG *****"); 
+			gameReport.close(); // close log report
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}// end main method
-	
 	
     //***************************************************************
     //
@@ -76,7 +76,7 @@ public class MathGame {
     //  Returns:      int
     //
     //***************************************************************
-	public int getCorrectScore() {
+	private int getCorrectScore() {
 		return this.correctScore;
 	}// end getCorrectScore method
 	
@@ -92,7 +92,7 @@ public class MathGame {
     //  Returns:      int
     //
     //***************************************************************
-	public int getIncorrectScore() {
+	private int getIncorrectScore() {
 		return this.incorrectScore;
 	}//end getIncorrectScore
 	
@@ -107,7 +107,7 @@ public class MathGame {
     //  Returns:      N/A
     //
     //***************************************************************
-	public void resetScore() {
+	private void resetScore() {
 		this.correctScore = 0;
 		this.incorrectScore = 0;
 	}// end resetScore method
@@ -123,7 +123,7 @@ public class MathGame {
     //  Returns:      N/A
     //
     //***************************************************************
-	public void incrementCorrectScore() {
+	private void incrementCorrectScore() {
 		this.correctScore++;
 	}// end incrementCorrectScore method
 	
@@ -138,7 +138,7 @@ public class MathGame {
     //  Returns:      N/A
     //
     //***************************************************************
-	public void incrementIncorrectScore() {
+	private void incrementIncorrectScore() {
 		this.incorrectScore++;
 	}// end incrementIncorrectScore method
 	
@@ -153,7 +153,7 @@ public class MathGame {
     //  Returns:      N/A
     //
     //**************************************************************
-	public void playRound() {
+	private void playRound() {
 		
 		// get, display, and log question 
 		printAndLog("", false);
@@ -193,7 +193,7 @@ public class MathGame {
     //  Returns:      String
     //
     //***************************************************************
-	public String getPerformance() {
+	private String getPerformance() {
 		
 		String report = String.format("%n%-11s%s%n%-11s%s%n",
 				"Correct: ", getCorrectScore(),
@@ -215,7 +215,7 @@ public class MathGame {
     //  Returns:      boolean
     //
     //***************************************************************
-	public boolean isUpgradable() {
+	private boolean isUpgradable() {
 		
 		boolean isUpgradable = false;
 		if(getCorrectScore() >= 5) {
@@ -239,7 +239,7 @@ public class MathGame {
     //  Returns:      N/A
     //
     //***************************************************************
-	public void playForUpgrade() {
+	private void playForUpgrade() {
 		
 		resetScore();
 		while(correctScore < 5) {// must answer 5 questions correctly then upgrade
@@ -264,7 +264,7 @@ public class MathGame {
     //  Returns:      boolean
     //
     //***************************************************************
-	public boolean upgradeOrQuit() {
+	private boolean upgradeOrQuit() {
 		
 		boolean quit = false;
 		String selection = null;
@@ -320,7 +320,7 @@ public class MathGame {
     //  Returns:      void
     //
     //***************************************************************
-	public void upgradeDifficulty() {
+	private void upgradeDifficulty() {
 		
 		String oldDifficulty = qGenerator.getDifficultyLevel(); // current (old) difficulty level
 		
@@ -333,7 +333,7 @@ public class MathGame {
 			this.qGenerator = new AdvancedQuestionGenerator();
 		}
 		
-		// Report action to user
+		// Report upgrade to user
 		String newDifficulty = qGenerator.getDifficultyLevel();
 		printAndLog("--------------------------------------------------------", false);
 		printAndLog("Difficulty upgraded from [ " + oldDifficulty + " ] -> [ " + newDifficulty + " ]", false);
@@ -354,7 +354,7 @@ public class MathGame {
     //  Returns:      String (user response)
     //
     //***************************************************************
-	public String getUserInput(String promptMsg) {
+	private String getUserInput(String promptMsg) {
 		
 		String answer = "";
 		System.out.print(promptMsg);
@@ -370,14 +370,14 @@ public class MathGame {
     //
     //  Method:       getValidInt (Non Static)
     // 
-    //  Description:  Gets a response from the user.
+    //  Description:  Gets an integer response from the user.
     //
     //  Parameters:   String (a message to be prompted to user)
     //
     //  Returns:      String (user response)
     //
     //***************************************************************
-	public int getValidInt() {
+	private int getValidInt() {
 		
 		boolean isValid = false;
 		int answer = 0;
@@ -421,7 +421,6 @@ public class MathGame {
 		}
 		
 	}// end printAndLog method
-	
 	
     //***************************************************************
     //
