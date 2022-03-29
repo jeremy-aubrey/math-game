@@ -12,7 +12,7 @@
 //
 //  Instructor:    Fred Kumi 
 //
-//  Description:   A driver class for a in interactive Math program to 
+//  Description:   A driver class for an interactive Math program to 
 //                 help users learn to evaluate integer arithmetic expressions.
 //
 //********************************************************************
