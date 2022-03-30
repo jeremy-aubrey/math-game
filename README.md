@@ -35,7 +35,7 @@ Correct responses
 
 ![Screenshot](docs/images/correct.png)
 
-Incorrect responses
+Incorrect responses, *** the user is asked the same question until they get it correct ***
 
 ![Screenshot](docs/images/incorrect.png)
 
