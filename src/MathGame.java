@@ -35,6 +35,7 @@ public class MathGame {
 		
 		MathGame game = new MathGame();
 		game.developerInfo();
+		game.instructions();
 		
 		try { // instantiate game log file
 			
@@ -271,6 +272,7 @@ public class MathGame {
 		
 		if(isUpgradable() && qGenerator.getDifficultyLevel().equals("Advanced")) { // upgrading is not allowed (already advanced)
 			printAndLog("", false);
+			printAndLog(getPerformance(), false);
 			printAndLog("----------------------------------------", false);
 			printAndLog("Enter any key to continue or 'q' to quit", false);
 			printAndLog("----------------------------------------", false);
@@ -421,6 +423,26 @@ public class MathGame {
 		}
 		
 	}// end printAndLog method
+	
+    //***************************************************************
+    //
+    //  Method:       instructions (Non Static)
+    // 
+    //  Description:  Displays simple instructions to the user.
+    //
+    //  Parameters:   None
+    //
+    //  Returns:      N/A 
+    //
+    //**************************************************************
+	public void instructions() {
+		
+		System.out.println("\n[ MATH GAME ]");
+		System.out.println("\nWelcome, let's begin with some basic questions.");
+		System.out.println("Follow the menu options after correctly "
+				+ "\nanswering 5 questions.");
+		
+	}// end instructions method
 	
     //***************************************************************
     //
