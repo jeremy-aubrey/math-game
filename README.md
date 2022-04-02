@@ -1,7 +1,6 @@
 # Interactive math game
 
-An interactive math game in Java to help an elementary school
-student learn to evaluate integer arithmetic expressions.
+An interactive math game in Java to help a user learn to evaluate simple arithmetic expressions.
 
 Difficulty levels:
 
